@@ -34,9 +34,10 @@ class _RotateState extends State<Rotate> {
         children: [
           Center(
               child: Transform.rotate(
-                angle: angle,
-                child: Image.asset('assets/images/dog.jpg', width: 300, height: 300),
-              )),
+            angle: angle,
+            child:
+                Image.asset('assets/images/dog.jpg', width: 300, height: 300),
+          )),
           const SizedBox(height: 32),
           Center(
             child: ElevatedButton(

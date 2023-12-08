@@ -27,6 +27,10 @@ class CustomBottomBar extends StatelessWidget {
           icon: Icon(Icons.music_note),
           label: 'Audio',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.camera_alt),
+          label: 'Camera',
+        ),
       ],
     );
   }

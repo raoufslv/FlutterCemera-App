@@ -1,4 +1,7 @@
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class Gallerie extends StatefulWidget {
   const Gallerie({super.key});
@@ -8,22 +11,42 @@ class Gallerie extends StatefulWidget {
 }
 
 class _GallerieState extends State<Gallerie> {
-  List<String> imagePaths = [
-    'assets/images/dog.jpg',
-    'assets/images/duck.jpg',
-    'assets/images/smily_egg.jpg',
-    'assets/images/smily_sky.jpg',
-    'assets/images/chicken_baby_in_sky.jpg',
-    'assets/images/flower1.jpg',
-    'assets/images/flower4.jpg',
-    'assets/images/flower8.jpg',
-  ];
+  List<String> imagePaths = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadImages();
+  }
+
+  Future<void> loadImages() async {
+    // Load all '.jpg' images from 'assets/images/' directory
+    const String assetPath = 'assets/images/';
+
+    try {
+      final manifestContent = await rootBundle.loadString('AssetManifest.json');
+      final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+
+      final imagePaths = manifestMap.keys
+          .where((String key) => key.contains(assetPath))
+          .where((String key) => key.contains('.jpg'))
+          .toList();
+
+      setState(() {
+        this.imagePaths = imagePaths;
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Second Screen (gallery)'),
+        title: const Text('Second Screen (gallery and cam)'),
         backgroundColor: Colors.green[400],
       ),
       body: Center(
